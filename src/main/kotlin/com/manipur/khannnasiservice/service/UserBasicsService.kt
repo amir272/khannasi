@@ -8,4 +8,5 @@ interface UserBasicsService {
     fun createUser(userBasics: UserBasics): UserBasics
     fun updateUser(userId: Long, updatedUserBasics: UserBasics): UserBasics?
     fun deleteUser(userId: Long)
+    fun getUserByUsername(username: String): UserBasics?
 }

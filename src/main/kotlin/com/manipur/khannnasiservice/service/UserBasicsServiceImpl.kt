@@ -27,4 +27,8 @@ class UserBasicsServiceImpl(@Autowired private val userBasicsRepository: UserBas
             userBasicsRepository.deleteById(userId)
         }
     }
+
+    override fun getUserByUsername(username: String): UserBasics? {
+        return userBasicsRepository.findByUsername(username)
+    }
 }

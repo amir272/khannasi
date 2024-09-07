@@ -8,4 +8,5 @@ interface UserDetailsService {
     fun createUser(userDetails: UserDetails): UserDetails
     fun updateUser(userId: Long, updatedUserDetails: UserDetails): UserDetails?
     fun deleteUser(userId: Long)
+    fun findByUsernameAndPassword(username: String, password: String): UserDetails?
 }

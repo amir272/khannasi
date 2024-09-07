@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/api/user/basics")
+@RequestMapping("/api/user-basics")
 class UserBasicsController(@Autowired private val userBasicsService: UserBasicsService) {
 
     @GetMapping
@@ -16,6 +16,16 @@ class UserBasicsController(@Autowired private val userBasicsService: UserBasicsS
     @GetMapping("/{id}")
     fun getUserById(@PathVariable id: Long): ResponseEntity<UserBasics> {
         val user = userBasicsService.getUserById(id)
+        return if (user != null) {
+            ResponseEntity.ok(user)
+        } else {
+            ResponseEntity.notFound().build()
+        }
+    }
+
+    @GetMapping("/{username}")
+    fun getUserByUsername(@PathVariable username: String): ResponseEntity<UserBasics> {
+        val user = userBasicsService.getUserByUsername(username)
         return if (user != null) {
             ResponseEntity.ok(user)
         } else {

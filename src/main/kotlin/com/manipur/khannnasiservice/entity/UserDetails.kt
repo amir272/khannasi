@@ -31,7 +31,10 @@ data class UserDetails(
     val address: String,
 
     @Column(name = "password_hash", nullable = false)
-    val passwordHash: String
+    val passwordHash: String,
+
+    @Column(name = "is_verified", nullable = false)
+    val isVerified: Boolean = false
 ) {
     constructor() : this(
         email = "",

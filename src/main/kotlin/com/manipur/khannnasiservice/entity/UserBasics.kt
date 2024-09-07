@@ -18,7 +18,6 @@ data class UserBasics(
     @Column(name = "first_name", nullable = false)
     val firstName: String,
 
-
     @Column(name = "last_name", nullable = true)
     val lastName: String,
 
@@ -26,7 +25,10 @@ data class UserBasics(
     val username: String,
 
     @Column(name = "profile_picture_url")
-    val profilePictureUrl: String?
+    val profilePictureUrl: String?,
+
+    @Column(name = "user_level", nullable = false)
+    val userLevel: String = "user"
 ) {
     constructor() : this(
         firstName = "",
