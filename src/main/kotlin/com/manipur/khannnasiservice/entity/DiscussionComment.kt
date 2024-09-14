@@ -21,10 +21,8 @@ data class DiscussionComment(
     @Column(name = "comment_id")
     val commentId: Long = 0,
 
-    @ManyToOne
-    @JoinColumn(name = "discussion_id", nullable = false)
-    @JsonIgnore
-    val discussion: Discussion,
+    @Column(name = "discussion_id", nullable = false)
+    val discussionId: Long,
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
@@ -43,12 +41,8 @@ data class DiscussionComment(
     @Column(name = "deleted", nullable = false)
     val deleted: Boolean = false
 ) {
-    @get:JsonProperty("user")
-    val userDTO: UserDTO
-        get() = UserDTO(userBasics.userId, userBasics.username, userBasics.profilePictureUrl)
-
     constructor() : this(
-        discussion = Discussion(),
+        discussionId = 0,
         userBasics = UserBasics(),
         content = "",
         timestamp = LocalDateTime.now(),

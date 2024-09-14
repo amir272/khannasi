@@ -1,5 +1,6 @@
 package com.manipur.khannnasiservice.controller
 
+import com.manipur.khannnasiservice.dto.ArticleCommentsVotes
 import com.manipur.khannnasiservice.entity.Article
 import com.manipur.khannnasiservice.service.ArticleService
 import org.springframework.beans.factory.annotation.Autowired
@@ -40,5 +41,11 @@ class ArticleController(@Autowired private val articleService: ArticleService) {
     fun deleteArticle(@PathVariable id: Long): ResponseEntity<Void> {
         articleService.deleteArticle(id)
         return ResponseEntity.noContent().build()
+    }
+
+    @GetMapping("/articledetails/{articleId}")
+    fun getArticleCommentsVotes(@PathVariable articleId: Long) : ResponseEntity<ArticleCommentsVotes> {
+        val articleCommentsVotes = articleService.getArticleCommentsAndVotes(articleId)
+        return ResponseEntity.ok(articleCommentsVotes)
     }
 }

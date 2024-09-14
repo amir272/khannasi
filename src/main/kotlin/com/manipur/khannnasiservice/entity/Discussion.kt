@@ -38,9 +38,8 @@ data class Discussion(
     @Column(name = "main_category", nullable = false)
     val mainCategory: String,
 
-    @ElementCollection
     @Column(name = "sub_categories")
-    val subCategories: MutableList<String> = mutableListOf(),
+    val subCategories: String,
 
     @Column(name = "language_type", nullable = false)
     val languageType: String,
@@ -54,7 +53,7 @@ data class Discussion(
         initiator = UserBasics(),
         creationDate = LocalDate.now(),
         mainCategory = "",
-        subCategories = mutableListOf(),
+        subCategories = "",
         languageType = "",
         representativePicture = null
     )

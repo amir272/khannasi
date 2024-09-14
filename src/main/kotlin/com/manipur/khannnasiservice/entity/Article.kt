@@ -1,15 +1,9 @@
 package com.manipur.khannnasiservice.entity
 
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
-import jakarta.persistence.Table
-import jakarta.persistence.ElementCollection
-import jakarta.persistence.ManyToOne
-import jakarta.persistence.JoinColumn
+import jakarta.persistence.*
 import java.time.LocalDate
+import java.time.LocalDateTime
+import kotlin.jvm.Transient
 
 @Entity
 @Table(name = "articles")
@@ -30,29 +24,38 @@ data class Article(
     val author: UserBasics,
 
     @Column(name = "published_date", nullable = false)
-    val publishedDate: LocalDate,
+    val publishedDate: LocalDateTime,
 
     @Column(name = "main_category", nullable = false)
     val mainCategory: String,
 
-    @ElementCollection
     @Column(name = "sub_categories")
-    val subCategories: List<String>,
+    val subCategories: String,
 
     @Column(name = "language_type", nullable = false)
     val languageType: String,
 
     @Column(name = "representative_picture")
-    val representativePicture: String?
+    val representativePicture: String?,
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "article_id", referencedColumnName = "article_id", insertable = false, updatable = false)
+    val comments: List<ArticleComment>? = null,
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "original_post_id", referencedColumnName = "article_id", insertable = false, updatable = false)
+    val votes: List<ArticleVote>? = null
 ) {
     constructor() : this(
         title = "",
         content = "",
         author = UserBasics(),
-        publishedDate = LocalDate.now(),
+        publishedDate = LocalDateTime.now(),
         mainCategory = "",
-        subCategories = emptyList(),
+        subCategories = "",
         languageType = "",
-        representativePicture = null
+        representativePicture = null,
+        comments = null,
+        votes = null
     )
 }

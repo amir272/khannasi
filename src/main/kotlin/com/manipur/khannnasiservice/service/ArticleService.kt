@@ -1,5 +1,6 @@
 package com.manipur.khannnasiservice.service
 
+import com.manipur.khannnasiservice.dto.ArticleCommentsVotes
 import com.manipur.khannnasiservice.entity.Article
 
 interface ArticleService {
@@ -8,4 +9,5 @@ interface ArticleService {
     fun createArticle(article: Article): Article
     fun updateArticle(articleId: Long, updatedArticle: Article): Article?
     fun deleteArticle(articleId: Long)
+    fun getArticleCommentsAndVotes(articleId: Long): ArticleCommentsVotes?
 }

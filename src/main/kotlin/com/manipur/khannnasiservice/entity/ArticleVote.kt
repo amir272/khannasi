@@ -18,13 +18,11 @@ data class ArticleVote(
     @Column(name = "vote_id")
     val voteId: Long = 0,
 
-
     @Column(name = "comment_id", nullable = true)
     val commentId: Long,
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    @JsonIgnore
     val userBasics: UserBasics,
 
     @Column(name = "vote_type", nullable = false)

@@ -7,6 +7,7 @@ import com.manipur.khannnasiservice.repository.UserDetailsRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
+import java.util.logging.Logger
 
 @Service
 class UserDetailsServiceImpl(
@@ -38,8 +39,15 @@ class UserDetailsServiceImpl(
     }
 
     override fun updateUser(userId: Long, updatedUserDetails: UserDetails): UserDetails? {
-        return if (userDetailsRepository.existsById(userId)) {
-            val hashedPassword = passwordEncoder.encode(updatedUserDetails.passwordHash)
+        val existingUserDetails = userDetailsRepository.findById(userId).orElse(null)
+        return if (existingUserDetails != null) {
+            Logger.getLogger("UserDetailsServiceImpl").info("User ID: $userId To Update: $updatedUserDetails")
+
+            val hashedPassword = if(updatedUserDetails.passwordHash != existingUserDetails.passwordHash) {
+                passwordEncoder.encode(updatedUserDetails.passwordHash)
+            } else {
+                updatedUserDetails.passwordHash
+            }
             userDetailsRepository.save(updatedUserDetails.copy(passwordHash = hashedPassword))
         } else {
             null
@@ -53,7 +61,17 @@ class UserDetailsServiceImpl(
     }
 
     override fun findByUsernameAndPassword(username: String, password: String): UserDetails? {
-        val userBasics = userBasicsRepository.findByUsername(username) ?: return null
-        return userDetailsRepository.findUserBasicsUserIdAndPassword(userBasics.userId, passwordEncoder.encode(password))
+        val userBasics = userBasicsRepository.findByUsername(username)
+        return if (userBasics == null) {
+            null
+        } else {
+            val userDetails = userDetailsRepository.findUserBasicsUserId(userBasics.userId)
+            Logger.getLogger("UserDetailsServiceImpl").info("Username: $username, Password: ${userDetails?.passwordHash}")
+            if (userDetails != null && passwordEncoder.matches(password, userDetails.passwordHash)) {
+                userDetails
+            } else {
+                null
+            }
+        }
     }
 }

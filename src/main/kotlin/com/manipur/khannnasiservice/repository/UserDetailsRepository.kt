@@ -10,4 +10,7 @@ interface UserDetailsRepository : JpaRepository<UserDetails, Long> {
 
     @Query("SELECT u FROM UserDetails u WHERE u.userBasics.userId = :basicsUserId AND u.passwordHash = :password")
     fun findUserBasicsUserIdAndPassword(basicsUserId: Long, password: String): UserDetails?
+
+    @Query("SELECT u FROM UserDetails u WHERE u.userBasics.userId = :basicsUserId")
+    fun findUserBasicsUserId(basicsUserId: Long): UserDetails?
 }

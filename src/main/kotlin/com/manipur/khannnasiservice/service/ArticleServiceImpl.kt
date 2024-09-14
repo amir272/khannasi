@@ -1,5 +1,6 @@
 package com.manipur.khannnasiservice.service
 
+import com.manipur.khannnasiservice.dto.ArticleCommentsVotes
 import com.manipur.khannnasiservice.entity.Article
 import com.manipur.khannnasiservice.repository.ArticleRepository
 import com.manipur.khannnasiservice.repository.UserBasicsRepository
@@ -35,6 +36,10 @@ class ArticleServiceImpl(
         if (articleRepository.existsById(articleId)) {
             articleRepository.deleteById(articleId)
         }
+    }
+
+    override fun getArticleCommentsAndVotes(articleId: Long): ArticleCommentsVotes {
+        return articleRepository.getArticleCommentsVotes(articleId)
     }
 
 

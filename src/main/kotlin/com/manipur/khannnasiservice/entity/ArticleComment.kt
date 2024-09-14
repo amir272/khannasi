@@ -23,7 +23,6 @@ data class ArticleComment(
     @Column(name = "article_id", nullable = true)
     val articleId: Long,
 
-
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     val userBasics: UserBasics,
@@ -40,10 +39,6 @@ data class ArticleComment(
     @Column(name = "deleted", nullable = false)
     val deleted: Boolean = false
 ) {
-    @get:JsonProperty("user")
-    val userDTO: UserDTO
-        get() = UserDTO(userBasics.userId, userBasics.username, userBasics.profilePictureUrl)
-
     constructor() : this(
         articleId = 0,
         userBasics = UserBasics(),
